@@ -1,0 +1,143 @@
+.booking-history-page.dark {
+  background: #111214;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.booking-history-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  flex: 1;
+}
+
+.booking-history-container h1 {
+  color: #00e676;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.bookings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.booking-card {
+  background: #232426;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.booking-card:hover {
+  transform: translateY(-5px);
+}
+
+.booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.booking-header h3 {
+  color: #fff;
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.booking-details {
+  margin-bottom: 1.5rem;
+}
+
+.booking-details p {
+  margin: 0.5rem 0;
+  color: #bdbdbd;
+  font-size: 0.9rem;
+}
+
+.booking-details strong {
+  color: #fff;
+  margin-right: 0.5rem;
+}
+
+.view-details-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #00e676;
+  color: #18191b;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.view-details-btn:hover {
+  background: #00c853;
+}
+
+.no-bookings {
+  text-align: center;
+  padding: 3rem;
+  background: #232426;
+  border-radius: 10px;
+}
+
+.no-bookings p {
+  color: #bdbdbd;
+  margin-bottom: 1.5rem;
+}
+
+.find-stations-btn {
+  padding: 0.75rem 1.5rem;
+  background: #00e676;
+  color: #18191b;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.find-stations-btn:hover {
+  background: #00c853;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #bdbdbd;
+}
+
+.error-message {
+  background: #ffebee;
+  color: #c62828;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .booking-history-container {
+    padding: 1rem;
+  }
+
+  .bookings-grid {
+    grid-template-columns: 1fr;
+  }
+} 

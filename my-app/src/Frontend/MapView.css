@@ -1,0 +1,80 @@
+.map-view {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 64px);
+}
+
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.error-message {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffebee;
+  color: #c62828;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  z-index: 1000;
+  text-align: center;
+}
+
+.info-window {
+  padding: 0.5rem;
+  max-width: 300px;
+}
+
+.info-window h3 {
+  color: #00e676;
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+.info-window p {
+  color: #666;
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.station-details {
+  margin: 0.5rem 0;
+  padding: 0.5rem 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.station-details p {
+  margin: 0.25rem 0;
+  font-size: 0.85rem;
+}
+
+.book-btn {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #00e676;
+  color: #18191b;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s;
+}
+
+.book-btn:hover {
+  background-color: #00c853;
+}
+
+.book-btn:disabled {
+  background: #666;
+  cursor: not-allowed;
+} 

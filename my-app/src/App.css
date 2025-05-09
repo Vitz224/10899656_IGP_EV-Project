@@ -1,0 +1,26 @@
+.App {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+  padding-bottom: 2rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .content {
+    padding: 15px;
+  }
+}
+
+
+.app-container {
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
