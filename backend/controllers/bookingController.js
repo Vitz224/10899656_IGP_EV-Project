@@ -6,7 +6,7 @@ const { sendBookingConfirmation } = require('../utils/emailService');
 
 // Create new booking
 exports.createBooking = async (req, res) => {
-  const { stationId, startTime, endTime, chargerType } = req.body;
+  const { stationId, startTime, endTime, chargerType, vehicleNumber } = req.body;
   const userId = req.body.userId || 1; // Default to user 1 if not provided
 
   try {
@@ -55,6 +55,7 @@ exports.createBooking = async (req, res) => {
       startTime,
       endTime,
       chargerType,
+      vehicleNumber,
       totalAmount,
       status: 'pending'
     });

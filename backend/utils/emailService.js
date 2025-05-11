@@ -15,11 +15,11 @@ const sendWelcomeEmail = async (email, name, verificationToken) => {
     const mailOptions = {
       from: process.env.EMAIL_FROM,
       to: email,
-      subject: 'Welcome to Our Platform - Verify Your Email',
+      subject: 'Thank You For Signing Up With ChargeEV  - Please Verify Your Email',
       html: `
-        <h1>Welcome to Our Platform!</h1>
-        <p>Thank you for registering. Please verify your email address by clicking the link below:</p>
-        <a href="${verificationUrl}">Verify Email Address</a>
+        <h1>Welcome to Our EV Platform!</h1>
+        <p>Thank you for connecting with us. Please verify your email address by clicking the link below:</p>
+        <a href="${verificationUrl}">Verify Your Email Address</a>
         <p>If you did not create an account, please ignore this email.</p>
       `
     };

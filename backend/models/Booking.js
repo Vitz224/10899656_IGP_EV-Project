@@ -47,6 +47,10 @@ const Booking = sequelize.define('Booking', {
   paymentId: {
     type: DataTypes.STRING,
     allowNull: true
+  },
+  vehicleNumber: {
+    type: DataTypes.STRING,
+    allowNull: false
   }
 }, {
   timestamps: true
