@@ -89,7 +89,7 @@ const MapView = () => {
                 <p>{selectedStation.location}</p>
                 <div className="station-details">
                   <p>Available Chargers: {selectedStation.availableChargers}/{selectedStation.totalChargers}</p>
-                  <p>Price: ${selectedStation.pricing}/kWh</p>
+                  <p>Price: Rs.{selectedStation.pricing}/kWh</p>
                   <p>Charger Types: {selectedStation.chargerTypes.join(', ')}</p>
                 </div>
                 <button

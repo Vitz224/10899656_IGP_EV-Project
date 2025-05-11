@@ -10,7 +10,7 @@ const Footer = () => {
           <h3>Quick Links</h3>
           <ul>
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/">Find Stations</Link></li>
+            <li><Link to="/contact">Contact Us</Link></li>
             <li><Link to="/bookings">My Bookings</Link></li>
             <li><Link to="/profile">Profile</Link></li>
           </ul>

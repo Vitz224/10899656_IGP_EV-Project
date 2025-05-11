@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from "react";
 // import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+//import Footer from "../components/Footer";
 import "../Frontend/Home.css";
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
-import { useNavigate } from "react-router-dom";
 import Booking from './Booking';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("Nearby");
   const [selectedStation, setSelectedStation] = useState(null);
   const [selectedMapStation, setSelectedMapStation] = useState(null);
-  const [filters, setFilters] = useState({
-    cost: "",
-    availability: "",
-    distance: "",
-    chargerType: ""
-  });
   const [stations, setStations] = useState([]);
   const [newStation, setNewStation] = useState({
     name: '',
@@ -41,8 +34,8 @@ const Dashboard = () => {
   };
 
   const center = {
-    lat: 40.7128,
-    lng: -74.0060
+    lat: 6.821329,
+    lng: 80.041942
   };
 
   const notifications = [
@@ -52,7 +45,7 @@ const Dashboard = () => {
     "New user registered"
   ];
 
-  const navigate = useNavigate();
+
 
   const fetchStations = async () => {
     try {
@@ -60,9 +53,9 @@ const Dashboard = () => {
       if (!response.ok) {
         throw new Error('Failed to fetch stations');
       }
-      const data = await response.json();
-      console.log('Fetched stations:', data);
-      setStations(data);
+      const stationsData = await response.json();
+      console.log('Fetched stations:', stationsData);
+      setStations(stationsData);
     } catch (error) {
       console.error('Error fetching stations:', error);
     }
@@ -72,23 +65,6 @@ const Dashboard = () => {
   useEffect(() => {
     fetchStations();
   }, []);
-
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilters(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const resetFilters = () => {
-    setFilters({
-      cost: "",
-      availability: "",
-      distance: "",
-      chargerType: ""
-    });
-  };
 
   const handleMapClick = (event) => {
     if (activeTab === "Upload") {
@@ -200,11 +176,11 @@ const Dashboard = () => {
       });
 
       if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.msg || 'Failed to start charging');
+        const errorData = await response.json();
+        throw new Error(errorData.msg || 'Failed to start charging');
       }
 
-      const data = await response.json();
+      await response.json();
       alert('Charging session started successfully!');
     } catch (err) {
       setBookingError(err.message);
@@ -228,7 +204,7 @@ const Dashboard = () => {
                 <div className="station-details">
                   <p>Location: {selectedStation.location}</p>
                   <p>Available Chargers: {selectedStation.availableChargers}/{selectedStation.totalChargers}</p>
-                  <p>Price: ${selectedStation.pricing}/kWh</p>
+                  <p>Price: Rs.{selectedStation.pricing}/kWh</p>
                   <p>Charger Types: {selectedStation.chargerTypes.join(', ')}</p>
                 </div>
 
@@ -337,7 +313,7 @@ const Dashboard = () => {
                       <h3>{selectedMapStation.name}</h3>
                       <p>Location: {selectedMapStation.location}</p>
                       <p>Available Chargers: {selectedMapStation.availableChargers}/{selectedMapStation.totalChargers}</p>
-                      <p>Price: ${selectedMapStation.pricing}/hour</p>
+                      <p>Price: Rs.{selectedMapStation.pricing}/hour</p>
                       <p>Charger Types: {selectedMapStation.chargerTypes.join(', ')}</p>
                       <button 
                         className="book-btn"
@@ -369,7 +345,7 @@ const Dashboard = () => {
                   <h3>{station.name}</h3>
                   <div className="station-details">
                     <span>Location: {station.location}</span>
-                    <span>Price: ${station.pricing}/hour</span>
+                    <span>Price: Rs.{station.pricing}/hour</span>
                     <span>Available: {station.availableChargers}/{station.totalChargers} chargers</span>
                     <span>Charger Types: {station.chargerTypes.join(', ')}</span>
                   </div>
@@ -439,7 +415,7 @@ const Dashboard = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Price per Hour ($)</label>
+                  <label>Price per Hour (Rs.)</label>
                   <input
                     type="number"
                     step="0.01"
@@ -528,22 +504,37 @@ const Dashboard = () => {
               {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day, index) => (
                 <div key={`${day}-${index}`} className="day-header">{day}</div>
               ))}
-              {[29, 30, 31, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 28, 27, 28, 29, 30, 1].map((date, index) => (
-                <div key={`date-${index}`} className="date">{date}</div>
-              ))}
+              {(() => {
+                const dates = [29, 30, 31, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 28, 27, 28, 29, 30, 1];
+                const today = new Date();
+                const isMay2025 = today.getFullYear() === 2025 && today.getMonth() === 4; // May is 4 (0-indexed)
+                return dates.map((date, index) => {
+                  let highlight = false;
+                  if (isMay2025 && date === today.getDate()) highlight = true;
+                  // For demo: always highlight 19th if not May 2025
+                  if (!isMay2025 && date === 19) highlight = true;
+                  return (
+                    <div
+                      key={`date-${index}`}
+                      className={`date${highlight ? ' date-today' : ''}`}
+                    >
+                      {date}
+                    </div>
+                  );
+                });
+              })()}
+            </div>
+
+            <div className="notifications">
+              <h3>Notifications</h3>
+              <ul>
+                {notifications.map((note, index) => (
+                  <li key={index}>{note}</li>
+                ))}
+              </ul>
             </div>
           </div>
-
-          <div className="notifications">
-            <h3>Notifications</h3>
-            <ul>
-              {notifications.map((note, index) => (
-                <li key={index}>{note}</li>
-              ))}
-            </ul>
-          </div>
         </div>
-
         <div className="main-content">
           {selectedStation ? (
             <div className="station-details-view">
@@ -571,7 +562,7 @@ const Dashboard = () => {
                 </div>
                 <div className="detail-section">
                   <h4>Pricing</h4>
-                  <p>${selectedStation.pricing}/hour</p>
+                  <p>Rs.{selectedStation.pricing}/hour</p>
                 </div>
                 <div className="detail-section">
                   <h4>Charger Types</h4>
@@ -599,15 +590,15 @@ const Dashboard = () => {
             renderTabContent()
           )}
         </div>
-      </div>
 
-      {showBooking && selectedStation && (
-        <Booking
-          station={selectedStation}
-          onClose={() => setShowBooking(false)}
-          onBookingComplete={handleBookingComplete}
-        />
-      )}
+        {showBooking && selectedStation && (
+          <Booking
+            station={selectedStation}
+            onClose={() => setShowBooking(false)}
+            onBookingComplete={handleBookingComplete}
+          />
+        )}
+      </div>
     </div>
   );
 };

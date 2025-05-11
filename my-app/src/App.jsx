@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SearchStations from './Frontend/SearchStations';
+import ContactUs from './Frontend/ContactUs';
 // ... other imports
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
       <Routes>
         {/* ... other routes */}
         <Route path="/search" element={<SearchStations />} />
+        <Route path="/contact" element={<ContactUs />} />
         {/* ... other routes */}
       </Routes>
     </Router>

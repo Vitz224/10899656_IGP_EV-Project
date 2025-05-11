@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import "../Frontend/Signup.css";
 
 const Signup = () => {
@@ -118,7 +116,7 @@ const Signup = () => {
             </div>
             <h1>ChargeEV</h1>
             <h2 className="signup-title">Sign Up</h2>
-            <p className="subtitle">Register & start charging your EV now</p>
+            <p className="subtitle">Register & Start Charging Your EV Now</p>
           </div>
           <form onSubmit={handleSubmit} className="signup-form">
             {serverError && <div className="server-error">{serverError}</div>}
@@ -191,7 +189,6 @@ const Signup = () => {
         <div className="signup-art-bottom">
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

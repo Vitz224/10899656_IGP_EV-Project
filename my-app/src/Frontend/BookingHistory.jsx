@@ -116,7 +116,7 @@ const BookingHistory = () => {
                     <strong>Duration:</strong> {Math.round((new Date(booking.endTime) - new Date(booking.startTime)) / (1000 * 60))} minutes
                   </p>
                   <p>
-                    <strong>Total Amount:</strong> ${booking.totalAmount}
+                    <strong>Total Amount:</strong> Rs.{booking.totalAmount}
                   </p>
                   {booking.station?.location && (
                     <p>

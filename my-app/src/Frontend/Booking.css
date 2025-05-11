@@ -291,6 +291,11 @@ body, .booking-page.dark {
   max-width: 500px;
   position: relative;
   box-shadow: 0 4px 24px 0 rgba(0,0,0,0.18);
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .close-btn {
@@ -341,6 +346,7 @@ body, .booking-page.dark {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 .form-group {
@@ -445,4 +451,29 @@ body, .booking-page.dark {
 .done-btn:hover {
   background-color: #fff;
   color: #00e676;
+}
+
+.cancellation-policy {
+  margin: 18px 0 10px 0;
+  padding: 14px 16px;
+  background: #18191b;
+  color: #bdbdbd;
+  border-left: 4px solid #00e676;
+  border-radius: 6px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.cancellation-policy a {
+  color: #00e676;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.cancellation-policy a:hover {
+  color: #fff;
+  background: #00e676;
+  text-decoration: none;
+  border-radius: 3px;
+  padding: 0 2px;
 }

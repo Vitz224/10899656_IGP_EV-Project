@@ -14,7 +14,7 @@ describe('EV Charging App', () => {
   // Test 2: Displays stations after search
   it('renders stations after search', () => {
     const wrapper = mount(<App />);
-    wrapper.find('SearchBar').prop('onSearch')(mockStations);
+    wrapper.find('SearchBar').prop('onSearch')(mockStations); 
     expect(wrapper.find('StationCard').length).toBe(mockStations.length);
   });
-});
+}); 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 // import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+// import Footer from "../components/Footer";
 import "../Frontend/Admin.css";
 import { useNavigate } from 'react-router-dom';
 
@@ -106,133 +106,140 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="admin-dashboard">
-      <button className="logout-btn" onClick={handleLogout}>
+    <div style={{ position: 'relative' }}>
+      <button className="logout-btn logout-btn-absolute" onClick={handleLogout}>
         Logout
       </button>
-      <div className="admin-header">
-        <h1>Admin Dashboard</h1>
-        <div className="admin-tabs">
-          <button 
-            className={activeTab === 'users' ? 'active' : ''} 
-            onClick={() => setActiveTab('users')}
-          >
-            Users ({users.length})
-          </button>
-          <button 
-            className={activeTab === 'stations' ? 'active' : ''} 
-            onClick={() => setActiveTab('stations')}
-          >
-            Stations ({stations.length})
-          </button>
+      <div className="admin-dashboard">
+        <div className="admin-header-row">
+          <h1>Admin Dashboard</h1>
+        </div>
+        <div className="admin-header">
+          <div className="admin-tabs">
+            <button 
+              className={activeTab === 'users' ? 'active' : ''} 
+              onClick={() => setActiveTab('users')}
+            >
+              Users ({users.length})
+            </button>
+            <button 
+              className={activeTab === 'stations' ? 'active' : ''} 
+              onClick={() => setActiveTab('stations')}
+            >
+              Stations ({stations.length})
+            </button>
+          </div>
+        </div>
+
+        <div className="admin-content">
+          {activeTab === 'users' ? (
+            <div className="table-container">
+            <h2>User Management</h2>
+              <table className="admin-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map(user => (
+                    <tr key={user.id}>
+                      <td>{user.id}</td>
+                      <td>{user.name}</td>
+                      <td>{user.email}</td>
+                      <td>
+                        {(() => {
+                          const isAdmin = user.isAdmin === true || user.isAdmin === 1 || user.isAdmin === '1' || user.isAdmin === 'true';
+                          return (
+                            <span className={`role-badge ${isAdmin ? 'admin' : 'user'}`}>
+                              {isAdmin ? 'Admin' : 'User'}
+                            </span>
+                          );
+                        })()}
+                      </td>
+                      <td>{new Date(user.createdAt).toLocaleDateString()}</td>
+                      <td>
+                        <div className="action-buttons">
+                          <button 
+                            className="edit-btn"
+                            onClick={() => navigate(`/edit-user/${user.id}`)}
+                          >
+                            Edit
+                          </button>
+                          <button 
+                            className="delete-btn"
+                            onClick={() => handleDeleteUser(user.id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+          </div>
+          ) : (
+            <div className="table-container">
+              <h2>Station Management</h2>
+              <table className="admin-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>Chargers</th>
+                    <th>Price/Hour</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {stations.map(station => (
+                    <tr key={station.id}>
+                      <td>{station.id}</td>
+                      <td>{station.name}</td>
+                      <td>{station.location}</td>
+                      <td>
+                        <span className="charger-info">
+                          {station.availableChargers}/{station.totalChargers}
+                        </span>
+                      </td>
+                      <td>Rs.{station.pricing}/hr</td>
+                      <td>
+                        <span className={`status-badge ${station.availableChargers > 0 ? 'available' : 'full'}`}>
+                          {station.availableChargers > 0 ? 'Available' : 'Full'}
+                        </span>
+                      </td>
+                      <td>
+                        <div className="action-buttons">
+                          <button 
+                            className="edit-btn"
+                            onClick={() => navigate(`/edit-station/${station.id}`)}
+                          >
+                            Edit
+                          </button>
+                          <button 
+                            className="delete-btn"
+                            onClick={() => handleDeleteStation(station.id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+          </div>
+          )}
         </div>
       </div>
-
-      <div className="admin-content">
-        {activeTab === 'users' ? (
-          <div className="table-container">
-          <h2>User Management</h2>
-            <table className="admin-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Created At</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map(user => (
-                  <tr key={user.id}>
-                    <td>{user.id}</td>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
-                    <td>
-                      <span className={`role-badge ${user.isAdmin ? 'admin' : 'user'}`}>
-                        {user.isAdmin ? 'Admin' : 'User'}
-                      </span>
-                    </td>
-                    <td>{new Date(user.createdAt).toLocaleDateString()}</td>
-                    <td>
-                      <div className="action-buttons">
-                        <button 
-                          className="edit-btn"
-                          onClick={() => navigate(`/edit-user/${user.id}`)}
-                        >
-                          Edit
-                        </button>
-                        <button 
-                          className="delete-btn"
-                          onClick={() => handleDeleteUser(user.id)}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-        </div>
-        ) : (
-          <div className="table-container">
-            <h2>Station Management</h2>
-            <table className="admin-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Location</th>
-                  <th>Chargers</th>
-                  <th>Price/Hour</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {stations.map(station => (
-                  <tr key={station.id}>
-                    <td>{station.id}</td>
-                    <td>{station.name}</td>
-                    <td>{station.location}</td>
-                    <td>
-                      <span className="charger-info">
-                        {station.availableChargers}/{station.totalChargers}
-                      </span>
-                    </td>
-                    <td>${station.pricing}/hr</td>
-                    <td>
-                      <span className={`status-badge ${station.availableChargers > 0 ? 'available' : 'full'}`}>
-                        {station.availableChargers > 0 ? 'Available' : 'Full'}
-                      </span>
-                    </td>
-                    <td>
-                      <div className="action-buttons">
-                        <button 
-                          className="edit-btn"
-                          onClick={() => navigate(`/edit-station/${station.id}`)}
-                        >
-                          Edit
-                        </button>
-                        <button 
-                          className="delete-btn"
-                          onClick={() => handleDeleteStation(station.id)}
-                        >
-                          Delete
-                        </button>
-        </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-        </div>
-        )}
-      </div>
-
-      <Footer />
     </div>
   );
 };

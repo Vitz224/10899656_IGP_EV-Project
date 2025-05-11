@@ -183,7 +183,7 @@ const DiscoverStations = () => {
                         <p>{station.location}</p>
                         <div className="station-details">
                           <p>Available Chargers: {station.availableChargers}/{station.totalChargers}</p>
-                          <p>Price: ${station.pricing}/kWh</p>
+                          <p>Price: Rs.{station.pricing}/kWh</p>
                           <p>Charger Types: {station.chargerTypes.join(', ')}</p>
                         </div>
                         <button 

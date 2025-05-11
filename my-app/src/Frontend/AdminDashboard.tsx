@@ -121,7 +121,7 @@ const AdminDashboard = () => {
                     <td>{station.name}</td>
                     <td>{station.location}</td>
                     <td>{station.availableChargers}/{station.totalChargers}</td>
-                    <td>${station.pricing}</td>
+                    <td>Rs.{station.pricing}</td>
                     <td>
                       <button className="action-btn">Edit</button>
                       <button className="action-btn delete">Delete</button>

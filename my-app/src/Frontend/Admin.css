@@ -229,6 +229,28 @@ body, .admin-dashboard {
   border-color: #444444;
 }
 
+.logout-btn-absolute {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  background: #ff4444;
+  color: #fff;
+  z-index: 100;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  transition: background 0.2s, color 0.2s;
+}
+
+.logout-btn-absolute:hover {
+  background: #c62828;
+  color: #fff;
+}
+
 .dashboard-header {
   display: flex;
   justify-content: space-between;
@@ -393,4 +415,28 @@ body, .admin-dashboard {
 
 .cancel-btn:hover {
   background-color: #616161;
+}
+
+.admin-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.logout-btn {
+  background: #222;
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.logout-btn:hover {
+  background: #ff4444;
+  color: #fff;
 }

@@ -112,6 +112,10 @@ const BookingDetails = () => {
                 <span>{booking.id}</span>
               </div>
               <div className="detail-item">
+                <label>Vehicle Number</label>
+                <span>{booking.vehicleNumber}</span>
+              </div>
+              <div className="detail-item">
                 <label>Date</label>
                 <span>{new Date(booking.startTime).toLocaleDateString()}</span>
               </div>
@@ -129,7 +133,7 @@ const BookingDetails = () => {
               </div>
               <div className="detail-item">
                 <label>Total Amount</label>
-                <span>${booking.totalAmount}</span>
+                <span>Rs.{booking.totalAmount}</span>
               </div>
             </div>
           </div>
@@ -147,7 +151,7 @@ const BookingDetails = () => {
               </div>
               <div className="detail-item">
                 <label>Price per kWh</label>
-                <span>${booking.station.pricing}</span>
+                <span>Rs.{booking.station.pricing}</span>
               </div>
             </div>
           </div>

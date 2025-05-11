@@ -105,6 +105,20 @@ body, .dashboard.dark {
   background-color: #18191b;
 }
 
+.date-today {
+  background: #00e676 !important;
+  color: #fff !important;
+  border-radius: 50%;
+  width: 1em;
+  height: 1em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  font-weight: initial;
+  box-shadow: 0 0 8px 0 rgba(0,230,118,0.18);
+}
+
 /* Notifications */
 .notifications ul {
   list-style: none;

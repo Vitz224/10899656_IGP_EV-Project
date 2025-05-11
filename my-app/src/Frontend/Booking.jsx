@@ -3,6 +3,7 @@ import './Booking.css';
 
 const Booking = ({ station, onClose, onBookingComplete }) => {
   const [bookingData, setBookingData] = useState({
+    vehicleNumber: "",
     chargerType: "Type 2",
     duration: "1" // Default 1 hour
   });
@@ -28,6 +29,7 @@ const Booking = ({ station, onClose, onBookingComplete }) => {
           startTime: new Date().toISOString(),
           endTime: new Date(Date.now() + (parseInt(bookingData.duration) * 3600000)).toISOString(),
           chargerType: bookingData.chargerType,
+          vehicleNumber: bookingData.vehicleNumber,
           chargingCode: code,
           status: 'pending'
         }),
@@ -38,7 +40,7 @@ const Booking = ({ station, onClose, onBookingComplete }) => {
         throw new Error(data.msg || 'Failed to start charging');
       }
 
-      const data = await response.json();
+      await response.json();
       alert('Charging session started successfully!');
     } catch (err) {
       setBookingError(err.message);
@@ -62,7 +64,7 @@ const Booking = ({ station, onClose, onBookingComplete }) => {
           <h3>{station.name}</h3>
           <p>Location: {station.location}</p>
           <p>Available Chargers: {station.availableChargers}/{station.totalChargers}</p>
-          <p>Price: ${station.pricing}/kWh</p>
+          <p>Price: Rs.{station.pricing}/kWh</p>
         </div>
 
         {showChargingCode ? (
@@ -76,6 +78,17 @@ const Booking = ({ station, onClose, onBookingComplete }) => {
           </div>
         ) : (
           <form onSubmit={handleStartCharging} className="booking-form">
+            <div className="form-group">
+              <label htmlFor="vehicleNumber">Vehicle Number <b>(Number Plate)</b> </label>
+              <input
+                type="text"
+                id="vehicleNumber"
+                value={bookingData.vehicleNumber}
+                onChange={e => setBookingData({ ...bookingData, vehicleNumber: e.target.value })}
+                required
+                placeholder="Enter your vehicle number"
+              />
+            </div>
             <div className="form-group">
               <label htmlFor="chargerType">Charger Type</label>
               <select
@@ -103,6 +116,12 @@ const Booking = ({ station, onClose, onBookingComplete }) => {
                 <option value="3">3 hours</option>
                 <option value="4">4 hours</option>
               </select>
+            </div>
+
+            <div className="cancellation-policy">
+              <strong>Cancellation Policy:</strong><br />
+              If you wish to <b>cancel</b> your booking, please do so at least <b>24 hours</b> in advance.<br />
+              To cancel, kindly send us an <a href="mailto:support@evcharge.com" target="_blank" rel="noopener noreferrer">Email</a> or submit a <a href="/contact">Feedback</a> request at least <b>24 hours</b> before your scheduled time.
             </div>
 
             {bookingError && <div className="error-message">{bookingError}</div>}
