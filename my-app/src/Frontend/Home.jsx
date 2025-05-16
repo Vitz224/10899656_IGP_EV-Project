@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import "../Frontend/Home.css";
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import Booking from './Booking';
+import GeminiAssistant from "../components/GeminiAssistant";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("Nearby");
@@ -27,6 +28,7 @@ const Dashboard = () => {
   const [chargingCode, setChargingCode] = useState("");
   const [showChargingCode, setShowChargingCode] = useState(false);
   const [showBooking, setShowBooking] = useState(false);
+  const [showAssistant, setShowAssistant] = useState(false);
 
   const mapContainerStyle = {
     width: '100%',
@@ -39,7 +41,7 @@ const Dashboard = () => {
   };
 
   const notifications = [
-    "You have 12 new charging spots",
+    "You have 6 new charging spots",
     "New charging station opened",
     "Station under maintenance",
     "New user registered"
@@ -210,9 +212,9 @@ const Dashboard = () => {
 
                 {showChargingCode ? (
                   <div className="charging-code-display">
-                    <h3>Your Charging Code</h3>
+                    <h3>Your EV Charging Code</h3>
                     <div className="code-box">{chargingCode}</div>
-                    <p>Please use this code at the charging station to start your session.</p>
+                    <p>Please use this <b>code</b> at the charging station to start your session.</p>
                     <button 
                       className="start-charging-btn"
                       onClick={() => {
@@ -485,6 +487,23 @@ const Dashboard = () => {
       {/* <Navbar /> */}
       <div className="dashboard-container">
         <div className="sidebar">
+          <button
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              marginBottom: "1rem",
+              marginLeft: "0.2rem"
+            }}
+            onClick={() => setShowAssistant((prev) => !prev)}
+            aria-label="Open EV Assistant"
+          >
+            <img
+              src={"AI.png"}
+              alt="Assistant"
+              style={{ width: 40, height: 40, borderRadius: "50%" }}
+            />
+          </button>
           <h1>ChargeEV</h1>
           <ul className="nav-tabs">
             {["Charging", "Map View", "Nearby", "Recent", "Upload"].map(tab => (
@@ -511,7 +530,6 @@ const Dashboard = () => {
                 return dates.map((date, index) => {
                   let highlight = false;
                   if (isMay2025 && date === today.getDate()) highlight = true;
-                  // For demo: always highlight 19th if not May 2025
                   if (!isMay2025 && date === 19) highlight = true;
                   return (
                     <div
@@ -599,6 +617,7 @@ const Dashboard = () => {
           />
         )}
       </div>
+      {showAssistant && <GeminiAssistant onClose={() => setShowAssistant(false)} />}
     </div>
   );
 };
