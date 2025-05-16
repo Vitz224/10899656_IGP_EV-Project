@@ -19,6 +19,7 @@ import BookingDetails from './Frontend/BookingDetails';
 import EditUser from './Frontend/EditUser';
 import EditStation from './Frontend/EditStation';
 import VerifyEmail from './Frontend/VerifyEmail';
+import GeminiAssistant from './components/GeminiAssistant';
 import "./App.css";
 
 function App() {
