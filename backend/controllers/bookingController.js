@@ -3,11 +3,35 @@ const Station = require('../models/Station');
 const { Op } = require('sequelize');
 const { createPaymentIntent, confirmPayment } = require('../utils/paymentService');
 const { sendBookingConfirmation } = require('../utils/emailService');
+const moment = require('moment-timezone');
+const User = require('../models/User');
+const crypto = require('crypto');
 
 // Create new booking
-exports.createBooking = async (req, res) => {
-  const { stationId, startTime, endTime, chargerType, vehicleNumber } = req.body;
-  const userId = req.body.userId || 1; // Default to user 1 if not provided
+const createBooking = async (req, res) => {
+  let { stationId, startTime, endTime, chargerType, vehicleNumber } = req.body;
+
+  // Find the user with the highest ID
+  const user = await User.findOne({ order: [['id', 'DESC']] });
+  if (!user) {
+    return res.status(400).json({ msg: 'No users found in the database.' });
+  }
+  const userId = user.id;
+
+  // Generate unique charging code
+  const chargingCode = crypto.randomBytes(4).toString('hex').toUpperCase();
+
+  // Convert to Asia/Colombo time if not already
+  if (!startTime) {
+    startTime = moment().tz('Asia/Colombo').format('YYYY-MM-DD HH:mm:ss');
+  } else {
+    startTime = moment(startTime).tz('Asia/Colombo').format('YYYY-MM-DD HH:mm:ss');
+  }
+  if (!endTime) {
+    endTime = moment().tz('Asia/Colombo').add(1, 'hour').format('YYYY-MM-DD HH:mm:ss');
+  } else {
+    endTime = moment(endTime).tz('Asia/Colombo').format('YYYY-MM-DD HH:mm:ss');
+  }
 
   try {
     // Check station availability
@@ -57,13 +81,26 @@ exports.createBooking = async (req, res) => {
       chargerType,
       vehicleNumber,
       totalAmount,
-      status: 'pending'
+      status: 'pending',
+      chargingCode
     });
 
     // Update station's available chargers
     await station.update({
       availableChargers: station.availableChargers - 1
     });
+
+    // Fetch the saved booking from the DB (to get all values as stored)
+    const savedBooking = await Booking.findByPk(booking.id);
+
+    // Send confirmation email using the saved booking
+    if (user && user.email) {
+      const bookingForEmail = {
+        ...savedBooking.toJSON(),
+        stationName: station.name
+      };
+      await sendBookingConfirmation(user.email, bookingForEmail);
+    }
 
     res.status(201).json({
       booking,
@@ -76,7 +113,7 @@ exports.createBooking = async (req, res) => {
 };
 
 // Confirm booking after payment
-exports.confirmBooking = async (req, res) => {
+const confirmBooking = async (req, res) => {
   const { bookingId, paymentIntentId } = req.body;
 
   try {
@@ -107,21 +144,14 @@ exports.confirmBooking = async (req, res) => {
 };
 
 // Get user bookings
-exports.getUserBookings = async (req, res) => {
+const getUserBookings = async (req, res) => {
   try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ msg: 'No authorization token provided' });
+    // Find the user with the highest ID
+    const user = await User.findOne({ order: [['id', 'DESC']] });
+    if (!user) {
+      return res.status(400).json({ msg: 'No users found in the database.' });
     }
-
-    const token = authHeader.split('Bearer ')[1];
-    if (!token) {
-      return res.status(401).json({ msg: 'Invalid token format' });
-    }
-
-    // For now, we'll use a simple user ID from the token
-    // In a real app, you would verify the JWT token and get the user ID from it
-    const userId = 1; // This should be replaced with actual user ID from token verification
+    const userId = user.id;
 
     console.log('Fetching bookings for user:', userId);
 
@@ -156,7 +186,7 @@ exports.getUserBookings = async (req, res) => {
 };
 
 // Cancel booking
-exports.cancelBooking = async (req, res) => {
+const cancelBooking = async (req, res) => {
   const { id } = req.params;
   const userId = req.body.userId || 1; // Default to user 1 if not provided
 
@@ -190,7 +220,7 @@ exports.cancelBooking = async (req, res) => {
 };
 
 // Update booking status (admin only)
-exports.updateBookingStatus = async (req, res) => {
+const updateBookingStatus = async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
 
@@ -206,4 +236,12 @@ exports.updateBookingStatus = async (req, res) => {
     console.error('Error updating booking status:', err);
     res.status(500).json({ msg: 'Server error' });
   }
+};
+
+module.exports = {
+  createBooking,
+  confirmBooking,
+  getUserBookings,
+  cancelBooking,
+  updateBookingStatus
 }; 
