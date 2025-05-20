@@ -21,6 +21,10 @@ const GeminiAssistant = () => {
     setLoading(false);
   };
 
+  const markdownToHtml = (text) => {
+    return text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+  };
+
   return (
     <div style={{
       position: "fixed", bottom: 20, right: 20, width: 350, background: "#222",
@@ -32,7 +36,9 @@ const GeminiAssistant = () => {
       <div style={{ maxHeight: 200, overflowY: "auto", marginBottom: 8 }}>
         {messages.map((msg, idx) => (
           <div key={idx} style={{ textAlign: msg.sender === "user" ? "right" : "left" }}>
-            <b>{msg.sender === "user" ? "You" : "AI"}:</b> {msg.text}
+            <b>{msg.sender === "user" ? "You" : "AI"}:</b> {msg.sender === "ai"
+              ? <span dangerouslySetInnerHTML={{ __html: markdownToHtml(msg.text) }} />
+              : msg.text}
           </div>
         ))}
       </div>
