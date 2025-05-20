@@ -117,15 +117,15 @@ const BookingDetails = () => {
               </div>
               <div className="detail-item">
                 <label>Date</label>
-                <span>{new Date(booking.startTime).toLocaleDateString()}</span>
+                <span>{new Date(booking.startTime).toLocaleDateString('en-US', { timeZone: 'Asia/Colombo' })}</span>
               </div>
               <div className="detail-item">
                 <label>Start Time</label>
-                <span>{new Date(booking.startTime).toLocaleTimeString()}</span>
+                <span>{new Date(booking.startTime).toLocaleTimeString('en-US', { timeZone: 'Asia/Colombo' })}</span>
               </div>
               <div className="detail-item">
                 <label>End Time</label>
-                <span>{new Date(booking.endTime).toLocaleTimeString()}</span>
+                <span>{new Date(booking.endTime).toLocaleTimeString('en-US', { timeZone: 'Asia/Colombo' })}</span>
               </div>
               <div className="detail-item">
                 <label>Duration</label>

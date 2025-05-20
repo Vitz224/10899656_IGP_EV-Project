@@ -453,7 +453,7 @@ body, .booking-page.dark {
   color: #00e676;
 }
 
-.cancellation-policy {
+.policy-contact {
   margin: 18px 0 10px 0;
   padding: 14px 16px;
   background: #18191b;
@@ -464,16 +464,56 @@ body, .booking-page.dark {
   line-height: 1.6;
 }
 
-.cancellation-policy a {
+.policy-contact a {
   color: #00e676;
   text-decoration: underline;
   font-weight: 600;
 }
 
-.cancellation-policy a:hover {
+.policy-contact a:hover {
   color: #fff;
   background: #00e676;
   text-decoration: none;
   border-radius: 3px;
   padding: 0 2px;
+}
+
+.policy-contact {
+  margin-top: 24px;
+  padding: 18px 20px;
+  background: #18191b;
+  color: #bdbdbd;
+  border-left: 4px solid #00e676;
+  border-radius: 10px;
+  font-size: 1rem;
+  line-height: 1.7;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.12);
+  margin-bottom: 10px;
+}
+
+.policy-contact strong {
+  color: #00e676;
+  font-size: 1.08em;
+}
+
+.policy-contact a {
+  color: #00e676;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.policy-contact a:hover {
+  color: #fff;
+  background: #00e676;
+  text-decoration: none;
+  border-radius: 3px;
+  padding: 0 2px;
+}
+
+.green-link {
+  color: #00e676 !important;
+  text-decoration: underline;
+}
+.green-link:hover {
+  color: #00c853 !important;
 }

@@ -9,10 +9,6 @@ const BookingHistory = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchBookings();
-  }, []);
-
   const fetchBookings = async () => {
     try {
       const userData = JSON.parse(localStorage.getItem('user'));
@@ -51,24 +47,10 @@ const BookingHistory = () => {
     }
   };
 
-  const handleViewDetails = (bookingId) => {
-    navigate(`/booking/details/${bookingId}`);
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'confirmed':
-        return '#00e676';
-      case 'pending':
-        return '#ffd600';
-      case 'cancelled':
-        return '#ff1744';
-      case 'completed':
-        return '#00b0ff';
-      default:
-        return '#bdbdbd';
-    }
-  };
+  useEffect(() => {
+    fetchBookings();
+    // eslint-disable-next-line
+  }, []);
 
   if (loading) {
     return (
@@ -102,15 +84,13 @@ const BookingHistory = () => {
               <div key={booking.id} className="booking-card">
                 <div className="booking-header">
                   <h3>{booking.station?.name || 'Unknown Station'}</h3>
-                  
                 </div>
-                
                 <div className="booking-details">
                   <p>
-                    <strong>Date:</strong> {new Date(booking.startTime).toLocaleDateString()}
+                    <strong>Date:</strong> {new Date(booking.startTime).toLocaleDateString('en-US', { timeZone: 'Asia/Colombo' })}
                   </p>
                   <p>
-                    <strong>Time:</strong> {new Date(booking.startTime).toLocaleTimeString()} - {new Date(booking.endTime).toLocaleTimeString()}
+                    <strong>Time:</strong> {new Date(booking.startTime).toLocaleTimeString('en-US', { timeZone: 'Asia/Colombo' })} - {new Date(booking.endTime).toLocaleTimeString('en-US', { timeZone: 'Asia/Colombo' })}
                   </p>
                   <p>
                     <strong>Duration:</strong> {Math.round((new Date(booking.endTime) - new Date(booking.startTime)) / (1000 * 60))} minutes
@@ -124,14 +104,11 @@ const BookingHistory = () => {
                     </p>
                   )}
                 </div>
-                
-                
               </div>
             ))}
           </div>
         )}
       </div>
-
     </div>
   );
 };

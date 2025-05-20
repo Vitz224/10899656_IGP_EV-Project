@@ -5,6 +5,7 @@ import "../Frontend/Home.css";
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import Booking from './Booking';
 import GeminiAssistant from "../components/GeminiAssistant";
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("Nearby");
@@ -29,6 +30,7 @@ const Dashboard = () => {
   const [showChargingCode, setShowChargingCode] = useState(false);
   const [showBooking, setShowBooking] = useState(false);
   const [showAssistant, setShowAssistant] = useState(false);
+  const navigate = useNavigate();
 
   const mapContainerStyle = {
     width: '100%',
@@ -357,7 +359,8 @@ const Dashboard = () => {
           </div>
         );
       case "Recent":
-        return <div className="recent-tab">Recent charging sessions</div>;
+        navigate('/bookings');
+        return null;
       case "Upload":
         return (
           <div className="upload-tab">
@@ -510,7 +513,13 @@ const Dashboard = () => {
               <li 
                 key={tab}
                 className={activeTab === tab ? 'active' : ''}
-                onClick={() => setActiveTab(tab)}
+                onClick={() => {
+                  if (tab === "Recent") {
+                    navigate('/bookings');
+                  } else {
+                    setActiveTab(tab);
+                  }
+                }}
               >
                 {tab}
               </li>
