@@ -24,12 +24,12 @@ const Booking = sequelize.define('Booking', {
     }
   },
   startTime: {
-    type: DataTypes.DATE,
-    allowNull: false
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   endTime: {
-    type: DataTypes.DATE,
-    allowNull: false
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   status: {
     type: DataTypes.ENUM('pending', 'confirmed', 'cancelled', 'completed'),
@@ -51,6 +51,14 @@ const Booking = sequelize.define('Booking', {
   vehicleNumber: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  chargerType: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  chargingCode: {
+    type: DataTypes.STRING,
+    allowNull: true
   }
 }, {
   timestamps: true
