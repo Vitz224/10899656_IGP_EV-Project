@@ -67,7 +67,7 @@ const ContactUs = () => {
             available charging stations for electric vehicles. Our goal is to make EV ownership 
             more convenient by providing real-time data on charging station locations, availability, 
             and specifications.</p>
-            <p>I am RAVL Perera, the Developer of the "ChargeEV" Finder website. If you have any inquiries, feel free to get in touch!</p>
+            <p>I am <b>RAVL Perera</b>, the <b>Developer</b> of the <b>"ChargeEV"</b> finder website. If you have any inquiries, feel free to get in touch!</p>
             <div className="contact-logo-row">
               <img src="EV.jpg" alt="EV Logo" className="contact-logo-round" />
               <img src="Pic.jpg" alt="EV Logo 2" className="contact-logo-round" />
@@ -94,7 +94,7 @@ const ContactUs = () => {
             {error && <div className="error-message">{error}</div>}
             <form className="contact-form" onSubmit={handleSubmit}>
               <div className="form-group">
-                <label htmlFor="name">Name / Charging Code</label>
+                <label htmlFor="name">Name / EV Charging Code</label>
                 <input
                   type="text"
                   id="name"
@@ -138,8 +138,8 @@ const ContactUs = () => {
 
             <div className="cancellation-policy-contact">
               <strong>Cancellation Policy:</strong><br />
-              If you wish to cancel your booking, please do so at least 24 hours in advance.<br />
-              To cancel, kindly send us an <a href="mailto:support@evcharge.com" target="_blank" rel="noopener noreferrer">Email</a> or submit a <b>Feedback</b> through here along with your <b>Charging Code</b> at least <b></b>24 hours before your scheduled time.
+              <p>If you Wish To <b>Cancel Your Booking</b>, Please do so at Least <b>24 Hours</b> in Advance.<br /></p>
+              To Cancel, Kindly Send us an <a href="mailto:support@evcharge.com" target="_blank" rel="noopener noreferrer">Email</a> or Submit a <b>Feedback</b> Through here along with your <b>EV Charging Code</b> at least <br></br> <b>24 Hours Before</b> your scheduled time.
             </div>
           </div>
         </div>
