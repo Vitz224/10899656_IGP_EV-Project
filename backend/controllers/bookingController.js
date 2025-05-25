@@ -44,28 +44,104 @@ const createBooking = async (req, res) => {
       return res.status(400).json({ msg: 'No chargers available at this station' });
     }
 
-    // Check if station is available during the requested time
-    const conflictingBooking = await Booking.findOne({
+    // First check if user has any active bookings at the same time (any station)
+    const userActiveBookings = await Booking.findAll({
       where: {
-        stationId,
-        status: 'active',
+        userId,
+        status: {
+          [Op.in]: ['active', 'confirmed', 'pending']
+        },
         [Op.or]: [
+          // Check for any overlapping bookings
           {
             startTime: {
-              [Op.between]: [startTime, endTime]
+              [Op.lte]: startTime
+            },
+            endTime: {
+              [Op.gt]: startTime
             }
           },
           {
+            startTime: {
+              [Op.lt]: endTime
+            },
             endTime: {
-              [Op.between]: [startTime, endTime]
+              [Op.gte]: endTime
+            }
+          },
+          {
+            startTime: {
+              [Op.gte]: startTime
+            },
+            endTime: {
+              [Op.lte]: endTime
+            }
+          }
+        ]
+      },
+      include: [{
+        model: Station,
+        attributes: ['name']
+      }]
+    });
+
+    if (userActiveBookings.length > 0) {
+      const existingBooking = userActiveBookings[0];
+      const existingStart = moment(existingBooking.startTime).format('YYYY-MM-DD HH:mm');
+      const existingEnd = moment(existingBooking.endTime).format('YYYY-MM-DD HH:mm');
+      
+      return res.status(400).json({ 
+        msg: `We already have a booking at ${existingBooking.Station.name} from ${existingStart} to ${existingEnd}. Please complete or cancel your existing booking first.`
+      });
+    }
+
+    // Then check for conflicts at the specific station
+    const conflictingBookings = await Booking.findAll({
+      where: {
+        stationId,
+        status: {
+          [Op.in]: ['active', 'confirmed', 'pending']
+        },
+        [Op.or]: [
+          // Case 1: New booking starts during an existing booking
+          {
+            startTime: {
+              [Op.lte]: startTime
+            },
+            endTime: {
+              [Op.gt]: startTime
+            }
+          },
+          // Case 2: New booking ends during an existing booking
+          {
+            startTime: {
+              [Op.lt]: endTime
+            },
+            endTime: {
+              [Op.gte]: endTime
+            }
+          },
+          // Case 3: New booking completely encompasses an existing booking
+          {
+            startTime: {
+              [Op.gte]: startTime
+            },
+            endTime: {
+              [Op.lte]: endTime
             }
           }
         ]
       }
     });
 
-    if (conflictingBooking) {
-      return res.status(400).json({ msg: 'Station is not available during the selected time' });
+    if (conflictingBookings.length > 0) {
+      const conflictingBooking = conflictingBookings[0];
+      const conflictStart = moment(conflictingBooking.startTime).format('YYYY-MM-DD HH:mm');
+      const conflictEnd = moment(conflictingBooking.endTime).format('YYYY-MM-DD HH:mm');
+      
+      return res.status(400).json({ 
+        msg: `This station is not available during the selected time. There is a booking from ${conflictStart} to ${conflictEnd}. Please choose a different time slot or try another station.`
+      });
     }
 
     // Calculate total amount
